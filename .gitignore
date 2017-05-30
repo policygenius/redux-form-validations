@@ -1,0 +1,9 @@
+.envrc
+Dockerfile.final
+Dockerfile.test
+schema.json
+node_modules
+npm-debug.log
+public/build
+tmp/
+.byebug_history
