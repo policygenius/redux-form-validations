@@ -1,0 +1,43 @@
+import isDateInPast from 'validators/isDateInPast';
+import mockdate from 'mockdate';
+
+describe('isDateInPast', () => {
+  const someFields = {};
+  beforeEach(function() {
+    mockdate.set('2/16/2017');
+  });
+
+  afterEach(function() {
+    mockdate.reset();
+  });
+
+  context('when the value is a parsable date', () => {
+    context('and that date is in the past', () => {
+      it('returns true', () => {
+        expect(isDateInPast.validator(someFields, '3/16/2012')).toBe(true);
+      });
+    });
+
+    context('and that date is in the future', () => {
+      it('returns false', () => {
+        expect(isDateInPast.validator(someFields, '3/16/2019')).toBe(false);
+      });
+    });
+  });
+
+  context('when the value is not a parsable date', () => {
+    context('and the value is nil', () => {
+      it('returns true', () => {
+        expect(isDateInPast.validator(someFields, null)).toBe(true);
+      });
+    });
+
+    context('and the value is not nil', () => {
+      it('throws an invariant', () => {
+        expect(() => {
+          isDateInPast.validator(someFields, 'hey dude');
+        }).toThrow(/Argument must be a parsable date or null value/);
+      });
+    });
+  });
+});
