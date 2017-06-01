@@ -1,7 +1,7 @@
-import buildValidations from './buildValidations';
-import isPresent from 'validators/isPresent';
-import isEmail from 'validators/isEmail';
 import { some } from 'lodash';
+import buildValidations from './buildValidations';
+import isPresent from './validators/isPresent';
+import isEmail from './validators/isEmail';
 
 
 describe('buildErrors', () => {
@@ -9,26 +9,26 @@ describe('buildErrors', () => {
     context('when there are no specified error messages', () => {
       const schema = {
         someRequired: {
-          validate: isPresent
+          validate: isPresent,
         },
         anotherRequired: {
           validate: {
-            validator: isPresent.validator
-          }
+            validator: isPresent.validator,
+          },
         },
         blankRequired: {
           validate: {
-            validator: isPresent.validator
-          }
+            validator: isPresent.validator,
+          },
         },
-        nawNotRequired: {}
+        nawNotRequired: {},
       };
 
       const values = {
         someRequired: 'and it is there',
         anotherRequired: null,
         blankRequired: '',
-        nawNotRequired: null
+        nawNotRequired: null,
       };
 
       it('returns an object with default field error messages', () => {
@@ -36,8 +36,8 @@ describe('buildErrors', () => {
           {
             anotherRequired: 'Another Required is not valid',
             blankRequired: 'Blank Required is not valid',
-          }
-        )
+          },
+        );
       });
     });
 
@@ -46,14 +46,14 @@ describe('buildErrors', () => {
         requiredWithMessage: {
           validate: {
             errorMessage: 'Required sucka foo!',
-            validator: isPresent.validator
-          }
+            validator: isPresent.validator,
+          },
         },
         undefinedRequired: {
           validate: {
-            validator: isPresent.validator
-          }
-        }
+            validator: isPresent.validator,
+          },
+        },
       };
 
       const values = { requiredWithMessage: '', undefinedRequired: undefined };
@@ -62,44 +62,44 @@ describe('buildErrors', () => {
         expect(buildValidations(schema).validate(values)).toEqual(
           {
             requiredWithMessage: 'Required sucka foo!',
-            undefinedRequired: 'Undefined Required is not valid'
-          }
-        )
+            undefinedRequired: 'Undefined Required is not valid',
+          },
+        );
       });
     });
 
     context('when a field is conditionally required', () => {
       const schema = {
         falseCondition: {
-          validate: isPresent
+          validate: isPresent,
         },
         conditionallyRequiredFalse: {
           validate: {
             ...isPresent,
-            validateIf: (allFields) => allFields.falseCondition
-          }
+            validateIf: allFields => allFields.falseCondition,
+          },
         },
         trueCondition: {
-          validate: isPresent
+          validate: isPresent,
         },
         conditionallyRequiredEmail: {
-          validate:{ 
+          validate: {
             ...isEmail,
-            validateIf: (allFields) => allFields.trueCondition,
-          }
-        }
+            validateIf: allFields => allFields.trueCondition,
+          },
+        },
       };
 
       const values = {
         falseCondition: false,
         conditionallyRequiredFalse: '',
         trueCondition: true,
-        conditionallyRequiredEmail: 'foo'
+        conditionallyRequiredEmail: 'foo',
       };
 
       it('only validates if the condition function evaluates to true', () => {
         expect(buildValidations(schema).validate(values)).toEqual({
-          conditionallyRequiredEmail: 'Must be a valid email'
+          conditionallyRequiredEmail: 'Must be a valid email',
         });
       });
     });
@@ -109,15 +109,15 @@ describe('buildErrors', () => {
         someEmail: {
           validate: {
             ...isEmail,
-            required: true
+            required: true,
           },
-        }
+        },
       };
       const values = { someEmail: null };
 
       it('returns an error that the field is required', () => {
         expect(buildValidations(schema).validate(values)).toEqual({
-          someEmail: 'Required'
+          someEmail: 'Required',
         });
       });
     });
@@ -126,22 +126,20 @@ describe('buildErrors', () => {
       const schema = {
         _error: {
           validate: {
-            validator: (allFields) => {
-              return some(allFields, 'active');
-            },
-            errorMessage: 'At least one field must be active'
-          }
-        }
+            validator: allFields => some(allFields, 'active'),
+            errorMessage: 'At least one field must be active',
+          },
+        },
       };
 
       const values = {
         foo: 'inactive',
-        bar: 'inactive'
+        bar: 'inactive',
       };
 
       it('returns those errors on the _error field', () => {
         expect(buildValidations(schema).validate(values)).toEqual({
-          _error: 'At least one field must be active'
+          _error: 'At least one field must be active',
         });
       });
     });
@@ -149,20 +147,20 @@ describe('buildErrors', () => {
     context('when there are nested fields', () => {
       const schema = {
         topLevelCondition: {
-          validate: isPresent
+          validate: isPresent,
         },
         doesNotMatter: {},
         _fieldArrays: {
           nestedForms: {
             presentNestedInput: {
-              validate: isPresent
+              validate: isPresent,
             },
             missingNestedInput: {
-              validate: isPresent
+              validate: isPresent,
             },
-            nestedDoesNotMatter: {}
-          }
-        }
+            nestedDoesNotMatter: {},
+          },
+        },
       };
 
       const values = {
@@ -171,33 +169,33 @@ describe('buildErrors', () => {
         nestedForms: [{
           presentNestedInput: 'im here',
           missingNestedInput: '',
-          nestedDoesNotMatter: ''
-        }]
+          nestedDoesNotMatter: '',
+        }],
       };
 
       it('validates those nested fields', () => {
         expect(buildValidations(schema).validate(values)).toEqual({
-          nestedForms: [{ missingNestedInput: 'Required' }]
-        })
+          nestedForms: [{ missingNestedInput: 'Required' }],
+        });
       });
     });
 
     context('when there are multiple nested field entries', () => {
       const schema = {
         topLevelCondition: {
-          validate: isPresent
+          validate: isPresent,
         },
         doesNotMatter: {},
         _fieldArrays: {
           nestedForms: {
             someNestedInput: {
-              validate: isPresent
+              validate: isPresent,
             },
             anotherNestedInput: {
-              validate: isPresent
-            }
-          }
-        }
+              validate: isPresent,
+            },
+          },
+        },
       };
 
       const values = {
@@ -215,8 +213,8 @@ describe('buildErrors', () => {
           {
             someNestedInput: 'i am fine',
             anotherNestedInput: '',
-          }
-        ]
+          },
+        ],
       };
 
       it('validates those entries in order', () => {
@@ -224,9 +222,9 @@ describe('buildErrors', () => {
           nestedForms: [
             {},
             { someNestedInput: 'Required', anotherNestedInput: 'Required' },
-            { anotherNestedInput: 'Required' }
-          ]
-        })
+            { anotherNestedInput: 'Required' },
+          ],
+        });
       });
     });
 
@@ -235,22 +233,22 @@ describe('buildErrors', () => {
         _fieldArrays: {
           topLevelNestedForms: {
             topLevelNestedInput: {
-              validate: isPresent
+              validate: isPresent,
             },
             _fieldArrays: {
               deeplyNestedForms: {
                 deeplyNestedInput: {
-                  validate: isPresent
-                }
+                  validate: isPresent,
+                },
               },
               seriouslyWhyWouldYouDoThis: {
                 someRidiculousInput: {
-                  validate: isPresent
-                }
-              }
-            }
-          }
-        }
+                  validate: isPresent,
+                },
+              },
+            },
+          },
+        },
       };
 
       const values = {
@@ -260,14 +258,14 @@ describe('buildErrors', () => {
             deeplyNestedForms: [
               {
                 deeplyNestedInput: '',
-              }
+              },
             ],
             seriouslyWhyWouldYouDoThis: [
               { someRidiculousInput: '' },
-              { someRidiculousInput: 'booyahhhh' }
-            ]
-          }
-        ]
+              { someRidiculousInput: 'booyahhhh' },
+            ],
+          },
+        ],
       };
 
       it('validates those nested fields in order', () => {
@@ -277,51 +275,53 @@ describe('buildErrors', () => {
               deeplyNestedForms: [{ deeplyNestedInput: 'Required' }],
               seriouslyWhyWouldYouDoThis: [
                 { someRidiculousInput: 'Required' },
-                {}
-              ]
-            }
-          ]
-        })
+                {},
+              ],
+            },
+          ],
+        });
       });
     });
   });
 
   context('when there are warn fields', () => {
-    const schema = {
-      warnIfNull: {
-        warn: isPresent
-      },
-      warnButItIsThere: {
-        warn: isPresent
-      },
-      doNotWarn: {
-        validate: isPresent
-      }
-    };
-
-    const values = { warnIfNull: null, doNotWarn: null, warnButItIsThere: 'i am here' };
-
-    it('returns warnings when warn validator function evaluates false', () => {
-      expect(buildValidations(schema).warn(values)).toEqual({ warnIfNull: 'Required' })
-    });
-
-    context('when there are nested warn fields', () => {
+    context('when top level', () => {
       const schema = {
         warnIfNull: {
-          warn: isPresent
+          warn: isPresent,
+        },
+        warnButItIsThere: {
+          warn: isPresent,
+        },
+        doNotWarn: {
+          validate: isPresent,
+        },
+      };
+
+      const values = { warnIfNull: null, doNotWarn: null, warnButItIsThere: 'i am here' };
+
+      it('returns warnings when warn validator function evaluates false', () => {
+        expect(buildValidations(schema).warn(values)).toEqual({ warnIfNull: 'Required' });
+      });
+    });
+
+    context('when nested', () => {
+      const schema = {
+        warnIfNull: {
+          warn: isPresent,
         },
         _fieldArrays: {
           nestedWarn: {
             nestedWarnField: {
-              warn: isPresent
-            }
-          }
-        }
+              warn: isPresent,
+            },
+          },
+        },
       };
 
       const values = {
-        warnIfNull: null, 
-        nestedWarn: [{}, { nestedWarnField: 'i am here' }]
+        warnIfNull: null,
+        nestedWarn: [{}, { nestedWarnField: 'i am here' }],
       };
 
       it('returns warnings when the nested warn fields validators functions evaluate false', () => {
@@ -329,8 +329,8 @@ describe('buildErrors', () => {
           warnIfNull: 'Required',
           nestedWarn: [
             { nestedWarnField: 'Required' },
-            {}
-          ]
+            {},
+          ],
         });
       });
     });

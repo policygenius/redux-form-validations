@@ -1,4 +1,4 @@
-import isEmail from 'validators/isEmail';
+import isEmail from './isEmail';
 
 describe('isEmail', () => {
   const someFields = {};
@@ -17,7 +17,7 @@ describe('isEmail', () => {
     context('when the value is not a string', () => {
       it('raises an invariant', () => {
         expect(() => {
-          isEmail.validator(someFields, 0)
+          isEmail.validator(someFields, 0);
         }).toThrow(/Argument must be a string or nil value/);
       });
     });

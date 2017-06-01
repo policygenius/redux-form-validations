@@ -1,4 +1,4 @@
-import isZipCode from 'validators/isZipCode';
+import isZipCode from './isZipCode';
 
 describe('isZipCode', () => {
   const someFields = {};
@@ -17,7 +17,7 @@ describe('isZipCode', () => {
     context('when the value is not a string or nil', () => {
       it('raises an invariant', () => {
         expect(() => {
-          isZipCode.validator(someFields, 12345)
+          isZipCode.validator(someFields, 12345);
         }).toThrow(/Zip code must be a string, was passed 12345, a number/);
       });
     });

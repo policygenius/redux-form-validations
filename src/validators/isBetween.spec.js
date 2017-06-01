@@ -1,4 +1,4 @@
-import isBetween from 'validators/isBetween';
+import isBetween from './isBetween';
 
 describe('isBetween', () => {
   const someFields = {};

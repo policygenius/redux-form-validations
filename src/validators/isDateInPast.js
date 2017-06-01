@@ -7,11 +7,11 @@ export default {
   validator: (allValues, value) => {
     invariant(
       isNil(value) || moment(value).isValid(),
-      'Argument must be a parsable date or null value'
+      'Argument must be a parsable date or null value',
     );
 
     const today = moment().format('YYYY-MM-DD');
 
     return isNil(value) || moment(value).isBefore(today);
-  }
+  },
 };

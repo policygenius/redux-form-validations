@@ -1,20 +1,17 @@
 import { pickBy, get, startCase, forEach } from 'lodash';
 
-const validateNested = ({ validations, nestedItems, type }) => {
-  const nestedErrors = [];
-  const schema = buildValidations(validations);
+const labelFor = (schema, fieldName) => schema[fieldName].label || startCase(fieldName);
 
-  forEach(nestedItems, (item, index) => {
-    const itemErrors = schema[type](item);
-    nestedErrors[index] = itemErrors;
-  });
-
-  return nestedErrors;
+const errorMessageFor = ({ schema, fieldName, type }) => {
+  if (get(schema[fieldName], `${type}.errorMessage`)) {
+    return schema[fieldName][type].errorMessage;
+  }
+  return `${labelFor(schema, fieldName)} is not valid`;
 };
 
 const buildValidators = (schema, type) => (values) => {
   const errors = {};
-  const validatedFields = Object.keys(pickBy(schema, (obj) => get(obj, `${type}.validator`)));
+  const validatedFields = Object.keys(pickBy(schema, obj => get(obj, `${type}.validator`)));
 
   forEach(validatedFields, (field) => {
     const validateCondition = schema[field][type].validateIf;
@@ -31,7 +28,10 @@ const buildValidators = (schema, type) => (values) => {
 
   if (schema._fieldArrays) {
     forEach(schema._fieldArrays, (validations, field) => {
+      /* eslint-disable no-use-before-define */
       const nestedErrors = validateNested({ validations, type, nestedItems: values[field] });
+      /* eslint-disable */
+
       if (nestedErrors.length) {
         errors[field] = nestedErrors;
       }
@@ -41,23 +41,23 @@ const buildValidators = (schema, type) => (values) => {
   return errors;
 };
 
-const errorMessageFor = ({ schema, fieldName, type }) => {
-  if (get(schema[fieldName], `${type}.errorMessage`)) {
-    return schema[fieldName][type].errorMessage;
-  } else {
-    return `${labelFor(schema, fieldName)} is not valid`;
-  }
-};
-
-const labelFor = (schema, fieldName) => {
-  return schema[fieldName].label || startCase(fieldName);
-};
-
 const buildValidations = (schema) => {
   const validate = buildValidators(schema, 'validate');
   const warn = buildValidators(schema, 'warn');
 
   return { validate, warn };
+};
+
+const validateNested = ({ validations, nestedItems, type }) => {
+  const nestedErrors = [];
+  const schema = buildValidations(validations);
+
+  forEach(nestedItems, (item, index) => {
+    const itemErrors = schema[type](item);
+    nestedErrors[index] = itemErrors;
+  });
+
+  return nestedErrors;
 };
 
 export default buildValidations;

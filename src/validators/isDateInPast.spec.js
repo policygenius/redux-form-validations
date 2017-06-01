@@ -1,13 +1,13 @@
-import isDateInPast from 'validators/isDateInPast';
 import mockdate from 'mockdate';
+import isDateInPast from './isDateInPast';
 
 describe('isDateInPast', () => {
   const someFields = {};
-  beforeEach(function() {
+  beforeEach(() => {
     mockdate.set('2/16/2017');
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockdate.reset();
   });
 

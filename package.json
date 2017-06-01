@@ -65,9 +65,12 @@
   },
   "scripts": {
     "clean": "rm -rf build/*",
-    "lint": "eslint ./src --ext .js --ext .jsx",
-    "release": "yarn run clean && babel src --ignore spec.js --out-dir build",
-    "test": "jest",
+    "build": "babel src --ignore spec.js --out-dir build",
+    "lint": "eslint ./src --ext .js",
+    "lint:fix": "eslint --fix ./src --ext .js",
+    "prepublish": "yarn run clean && yarn run build",
+    "test": "yarn run lint && jest",
+    "test:unit": "jest",
     "test:debug": "jest --runInBand",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
