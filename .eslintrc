@@ -1,0 +1,9 @@
+{
+  "extends": "policygenius",
+  "globals": {
+    "expect": false
+  },
+  "rules": {
+    "no-underscore-dangle": 0
+  }
+}
