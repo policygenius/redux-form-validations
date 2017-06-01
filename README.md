@@ -1,7 +1,7 @@
 # redux-form-validations
 A collection of utilities for validations in redux-form V6
 
-Note: this project is under initial development, API may change (we will follow sem-ver.
+Note: this project is under initial development, API may change (we will follow sem-ver).
 
 ## Example
 
