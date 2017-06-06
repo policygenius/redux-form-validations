@@ -31,13 +31,5 @@ describe('isDateInPast', () => {
         expect(isDateInPast.validator(someFields, null)).toBe(true);
       });
     });
-
-    context('and the value is not nil', () => {
-      it('throws an invariant', () => {
-        expect(() => {
-          isDateInPast.validator(someFields, 'hey dude');
-        }).toThrow(/Argument must be a parsable date or null value/);
-      });
-    });
   });
 });
