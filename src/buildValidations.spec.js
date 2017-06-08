@@ -113,11 +113,34 @@ describe('buildErrors', () => {
           },
         },
       };
-      const values = { someEmail: null };
 
-      it('returns an error that the field is required', () => {
-        expect(buildValidations(schema).validate(values)).toEqual({
-          someEmail: 'Required',
+      context('and the field value is not present', () => {
+        const values = { someEmail: null };
+
+        it('returns an error that the field is required', () => {
+          expect(buildValidations(schema).validate(values)).toEqual({
+            someEmail: 'Required',
+          });
+        });
+      });
+
+      context('and the field value is not present', () => {
+        context('and the field is valid', () => {
+          const values = { someEmail: 'email@foo.com' };
+
+          it('does not return an error', () => {
+            expect(buildValidations(schema).validate(values)).toEqual({});
+          });
+        });
+      });
+
+      context('and the field is not valid', () => {
+        const values = { someEmail: 'not an email' };
+
+        it('returns the error message for the validator', () => {
+          expect(buildValidations(schema).validate(values)).toEqual({
+            someEmail: 'Must be a valid email',
+          });
         });
       });
     });
