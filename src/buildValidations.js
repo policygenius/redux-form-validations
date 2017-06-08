@@ -1,4 +1,5 @@
 import { pickBy, get, startCase, forEach } from 'lodash';
+import isPresent from './validators/isPresent';
 
 const labelFor = (schema, fieldName) => schema[fieldName].label || startCase(fieldName);
 
@@ -17,7 +18,7 @@ const buildValidators = (schema, type) => (values) => {
     const validateCondition = schema[field][type].validateIf;
     const isRequired = schema[field][type].required;
 
-    if (isRequired) {
+    if (isRequired && !isPresent.validator(values, values[field])) {
       errors[field] = 'Required';
     } else if (!validateCondition || validateCondition(values, values[field])) {
       if (!schema[field][type].validator(values, values[field])) {
