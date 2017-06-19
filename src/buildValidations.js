@@ -1,18 +1,18 @@
-import { pickBy, get, startCase, forEach } from 'lodash';
+import { isArray, pickBy, get, startCase, forEach } from 'lodash';
 import isPresent from './validators/isPresent';
 
 const labelFor = (schema, fieldName) => schema[fieldName].label || startCase(fieldName);
 
-const errorMessageFor = ({ schema, fieldName, type }) => {
-  if (get(schema[fieldName], `${type}.errorMessage`)) {
-    return schema[fieldName][type].errorMessage;
+const errorMessageFor = ({ schema, fieldName, errors, rule }) => {
+  if (get(rule, 'errorMessage') && !errors[fieldName]) {
+    return rule.errorMessage;
   }
   return `${labelFor(schema, fieldName)} is not valid`;
 };
 
 const buildValidators = (schema, type) => (values) => {
   const errors = {};
-  const validatedFields = Object.keys(pickBy(schema, obj => get(obj, `${type}.validator`)));
+  const validatedFields = Object.keys(pickBy(schema, obj => get(obj, type)));
 
   forEach(validatedFields, (field) => {
     const validateCondition = schema[field][type].validateIf;
@@ -21,8 +21,17 @@ const buildValidators = (schema, type) => (values) => {
     if (isRequired && !isPresent.validator(values, values[field])) {
       errors[field] = 'Required';
     } else if (!validateCondition || validateCondition(values, values[field])) {
-      if (!schema[field][type].validator(values, values[field])) {
-        errors[field] = errorMessageFor({ schema, type, fieldName: field });
+      if (isArray(schema[field][type])) {
+        forEach(schema[field][type], (rule) => {
+          if (!rule.validator(values, values[field])) {
+            errors[field] = errorMessageFor({ schema, fieldName: field, errors, rule });
+          }
+        });
+      } else {
+        const rule = schema[field][type];
+        if (!rule.validator(values, values[field])) {
+          errors[field] = errorMessageFor({ schema, fieldName: field, errors, rule });
+        }
       }
     }
   });

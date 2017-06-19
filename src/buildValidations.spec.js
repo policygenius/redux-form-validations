@@ -3,7 +3,6 @@ import buildValidations from './buildValidations';
 import isPresent from './validators/isPresent';
 import isEmail from './validators/isEmail';
 
-
 describe('buildErrors', () => {
   context('when there are required fields', () => {
     context('when there are no specified error messages', () => {
@@ -302,6 +301,74 @@ describe('buildErrors', () => {
               ],
             },
           ],
+        });
+      });
+    });
+
+    context('when there are fields with multiple validators', () => {
+      context('and the validators do not have individual error messages', () => {
+        const schema = {
+          hasMultipleValidations: {
+            validate: [
+              {
+                validator: (allValues, value) => value % 2,
+              },
+              {
+                validator: (allValues, value) => value > 10,
+              },
+            ],
+          },
+        };
+
+        const values = {
+          hasMultipleValidations: 8,
+        };
+
+        it('returns a single default message for the field', () => {
+          expect(buildValidations(schema).validate(values)).toEqual({
+            hasMultipleValidations: 'Has Multiple Validations is not valid',
+          });
+        });
+      });
+
+      context('and the validators have individual error messages', () => {
+        const schema = {
+          hasMultipleValidations: {
+            validate: [
+              {
+                errorMessage: 'Must be an odd number',
+                validator: (allValues, value) => value % 2,
+              },
+              {
+                errorMessage: 'Must be greater than 10',
+                validator: (allValues, value) => value > 10,
+              },
+            ],
+          },
+        };
+
+        context('and multiple validators for a given field fail', () => {
+          const values = {
+            hasMultipleValidations: 8,
+          };
+
+          it('returns a single default message for the field', () => {
+            expect(buildValidations(schema).validate(values)).toEqual({
+              hasMultipleValidations: 'Has Multiple Validations is not valid',
+            });
+          });
+        });
+
+        context('and one of the validators for a given field fails', () => {
+          const values = {
+            hasMultipleValidations: 12,
+          };
+
+          it('returns the custom error message for the failed validator', () => {
+            expect(buildValidations(schema).validate(values)).toEqual({
+              hasMultipleValidations: 'Must be an odd number',
+            });
+          });
         });
       });
     });

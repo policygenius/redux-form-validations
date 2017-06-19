@@ -12,7 +12,7 @@ $ npm install --save redux-form-validations
 ```javascript
 import { React } from 'react';
 import { reduxForm } from 'redux-form';
-import { buildValidations, isPresent, isZipCode } from 'redux-form-validations';
+import { buildValidations, isPresent, isZipCode, isDateInPast, isDateAfter } from 'redux-form-validations';
 import { uniq } from 'lodash';
 
 const { warn, validate } = buildValidations({
@@ -30,6 +30,13 @@ const { warn, validate } = buildValidations({
       ...isZipCode,
       required: true
     }
+  },
+  dateApplied: {
+    validate: [
+      isDateInPast,
+      isDateAfter('04/19/1988'),
+      isPresent
+    ]
   },
   _fieldArrays: {
     hobbies: {
