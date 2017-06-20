@@ -31,5 +31,11 @@ describe('isDateInPast', () => {
         expect(isDateInPast.validator(someFields, null)).toBe(true);
       });
     });
+
+    context('and the value is not a valid date format', () => {
+      it('returns false', () => {
+        expect(isDateInPast.validator(someFields, '3/16/19')).toBe(false);
+      });
+    });
   });
 });
