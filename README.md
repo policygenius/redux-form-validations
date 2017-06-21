@@ -35,7 +35,10 @@ const { warn, validate } = buildValidations({
     validate: [
       isDateInPast,
       isDateAfter('04/19/1988'),
-      isPresent
+      {
+        ...isPresent,
+        validateIf: (allValues, value) => allValues.dependentField
+      }
     ]
   },
   _fieldArrays: {

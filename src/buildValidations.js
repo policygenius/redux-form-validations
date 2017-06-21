@@ -10,29 +10,46 @@ const errorMessageFor = ({ schema, fieldName, errors, rule }) => {
   return `${labelFor(schema, fieldName)} is not valid`;
 };
 
+const isRequiredAndNotPresent = ({ values, field, rule }) => rule.required && !isPresent.validator(values, values[field]);
+
+const isValid = ({ values, field, rule }) => {
+  const validateCondition = rule.validateIf;
+
+  if (!validateCondition || validateCondition(values, values[field])) {
+    return rule.validator(values, values[field]);
+  }
+  return true;
+};
+
 const buildValidators = (schema, type) => (values) => {
   const errors = {};
   const validatedFields = Object.keys(pickBy(schema, obj => get(obj, type)));
 
   forEach(validatedFields, (field) => {
-    const validateCondition = schema[field][type].validateIf;
-    const isRequired = schema[field][type].required;
+    if (!isArray(schema[field][type])) {
+      const rule = schema[field][type];
+      const requiredAndNotPresent = isRequiredAndNotPresent({ values, field, rule });
+      const valid = isValid({ values, field, rule });
 
-    if (isRequired && !isPresent.validator(values, values[field])) {
-      errors[field] = 'Required';
-    } else if (!validateCondition || validateCondition(values, values[field])) {
-      if (isArray(schema[field][type])) {
-        forEach(schema[field][type], (rule) => {
-          if (!rule.validator(values, values[field])) {
-            errors[field] = errorMessageFor({ schema, fieldName: field, errors, rule });
-          }
-        });
-      } else {
-        const rule = schema[field][type];
-        if (!rule.validator(values, values[field])) {
+      if (requiredAndNotPresent) {
+        errors[field] = 'Required';
+      } else if (!valid) {
+        errors[field] = errorMessageFor({ schema, fieldName: field, errors, rule });
+      }
+    } else {
+      const rules = schema[field][type];
+
+      forEach(rules, (rule) => {
+        const requiredAndNotPresent = isRequiredAndNotPresent({ values, field, rule });
+        const valid = isValid({ values, field, rule });
+
+        if (requiredAndNotPresent) {
+          errors[field] = 'Required';
+        } else if (!valid) {
           errors[field] = errorMessageFor({ schema, fieldName: field, errors, rule });
         }
-      }
+      },
+      );
     }
   });
 

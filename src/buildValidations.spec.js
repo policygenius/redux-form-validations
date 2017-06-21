@@ -371,6 +371,69 @@ describe('buildErrors', () => {
           });
         });
       });
+
+      context('and the validators have individual validateIf conditions', () => {
+        const schema = {
+          hasMultipleValidations: {
+            validate: [
+              {
+                errorMessage: 'The first validator failed!',
+                validateIf: allValues => allValues.dependentField,
+                validator: (allValues, value) => value % 2 === 0,
+              },
+              {
+                errorMessage: 'The second validator failed!',
+                validateIf: allValues => allValues.dependentField === false,
+                validator: (allValues, value) => value > 10,
+              },
+            ],
+          },
+        };
+
+        context('and one of the validators for a given field fails', () => {
+          const values = {
+            hasMultipleValidations: 3,
+            dependentField: false,
+          };
+
+          it('returns the custom error message for the failed validator', () => {
+            expect(buildValidations(schema).validate(values)).toEqual({
+              hasMultipleValidations: 'The second validator failed!',
+            });
+          });
+        });
+      });
+
+      context('and the one of the validators has a required condition', () => {
+        const schema = {
+          hasMultipleValidations: {
+            validate: [
+              {
+                required: true,
+                errorMessage: 'The first validator failed!',
+                validateIf: allValues => allValues.dependentField,
+                validator: (allValues, value) => value % 2 === 0,
+              },
+              {
+                errorMessage: 'The second validator failed!',
+                validateIf: allValues => allValues.dependentField === false,
+                validator: (allValues, value) => value > 10,
+              },
+            ],
+          },
+        };
+
+        const values = {
+          hasMultipleValidations: null,
+          dependentField: true,
+        };
+
+        it('returns the required error message for the field', () => {
+          expect(buildValidations(schema).validate(values)).toEqual({
+            hasMultipleValidations: 'Required',
+          });
+        });
+      });
     });
   });
 
