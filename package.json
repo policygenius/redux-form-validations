@@ -1,6 +1,6 @@
 {
   "name": "redux-form-validations",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Validation utilities for redux-form v6",
   "author": "PolicyGenius",
   "license": "MIT",

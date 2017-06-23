@@ -1,5 +1,8 @@
 ### v NEXT
 
+### v 0.0.7
+- Fix exporting `.isDateBefore()` validator by [Trevor Nelson](https://github.com/trevornelson) in [#8](https://github.com/policygenius/redux-form-validations/pull/8)
+
 ### v 0.0.6
 - Allow validateIf with multiple validators per field by [Sam Holmes](https://github.com/samanthavholmes) in [#5](https://github.com/policygenius/redux-form-validations/pull/7)
 
