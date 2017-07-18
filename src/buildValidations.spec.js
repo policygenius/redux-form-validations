@@ -41,29 +41,54 @@ describe('buildErrors', () => {
     });
 
     context('when the error message is specified', () => {
-      const schema = {
-        requiredWithMessage: {
-          validate: {
-            errorMessage: 'Required sucka foo!',
-            validator: isPresent.validator,
+      context('when the error message is a string', () => {
+        const schema = {
+          requiredWithMessage: {
+            validate: {
+              errorMessage: 'Required sucka foo!',
+              validator: isPresent.validator,
+            },
           },
-        },
-        undefinedRequired: {
-          validate: {
-            validator: isPresent.validator,
+          undefinedRequired: {
+            validate: {
+              validator: isPresent.validator,
+            },
           },
-        },
-      };
+        };
 
-      const values = { requiredWithMessage: '', undefinedRequired: undefined };
+        const values = { requiredWithMessage: '', undefinedRequired: undefined };
 
-      it('returns an object with custom error messages', () => {
-        expect(buildValidations(schema).validate(values)).toEqual(
-          {
-            requiredWithMessage: 'Required sucka foo!',
-            undefinedRequired: 'Undefined Required is not valid',
+        it('returns an object with custom error messages', () => {
+          expect(buildValidations(schema).validate(values)).toEqual(
+            {
+              requiredWithMessage: 'Required sucka foo!',
+              undefinedRequired: 'Undefined Required is not valid',
+            },
+          );
+        });
+      });
+
+      context('when the error message is a function', () => {
+        const schema = {
+          requiredWithDynamicMessage: {
+            validate: {
+              errorMessage: (allFields, field) => {
+                const fieldNames = Object.keys(allFields).join(', ');
+                return `All fields are ${fieldNames} and the value is ${field}`;
+              },
+              validator: () => false,
+            },
           },
-        );
+          otherField: {},
+        };
+
+        const values = { requiredWithDynamicMessage: 'foo', otherField: 'bar' };
+
+        it('returns an object with dynamic error messages', () => {
+          expect(buildValidations(schema).validate(values)).toEqual({
+            requiredWithDynamicMessage: 'All fields are requiredWithDynamicMessage, otherField and the value is foo',
+          });
+        });
       });
     });
 
