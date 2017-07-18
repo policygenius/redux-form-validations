@@ -61,6 +61,15 @@ class MyForm extends React.Component { ... }
 export default reduxForm({ warn, validate })(MyForm);
 ```
 
+## Custom validators
+
+Every field defined in your schema object has top-level keys `warn` and `validate` which are used to build warn and validate functions for redux-form connected components. These keys take a _validator object_, which has the shape:
+
+`validator`: Function (allFields, value) => Boolean
+If the return value is true, then the field is valid, if false, an error is added.
+`errorMessage`: String || Function (allField, value) => String
+The error message that is returned with the `validate` or `warn` function call when the `validator` returns false.
+
 ## Prior work
 [redux-form-schema](https://github.com/Lighthouse-io/redux-form-schema) is the main
 inspiration for this project. After redux-form moved to V6, this project was deprecated,

@@ -3,8 +3,11 @@ import isPresent from './validators/isPresent';
 
 const labelFor = (schema, fieldName) => schema[fieldName].label || startCase(fieldName);
 
-const errorMessageFor = ({ schema, fieldName, errors, rule }) => {
+const errorMessageFor = ({ schema, fieldName, errors, rule, values }) => {
   if (get(rule, 'errorMessage') && !errors[fieldName]) {
+    if (typeof rule.errorMessage === 'function') {
+      return rule.errorMessage(values, values[fieldName]);
+    }
     return rule.errorMessage;
   }
   return `${labelFor(schema, fieldName)} is not valid`;
@@ -34,7 +37,7 @@ const buildValidators = (schema, type) => (values) => {
       if (requiredAndNotPresent) {
         errors[field] = 'Required';
       } else if (!valid) {
-        errors[field] = errorMessageFor({ schema, fieldName: field, errors, rule });
+        errors[field] = errorMessageFor({ schema, fieldName: field, errors, rule, values });
       }
     } else {
       const rules = schema[field][type];
@@ -46,7 +49,7 @@ const buildValidators = (schema, type) => (values) => {
         if (requiredAndNotPresent) {
           errors[field] = 'Required';
         } else if (!valid) {
-          errors[field] = errorMessageFor({ schema, fieldName: field, errors, rule });
+          errors[field] = errorMessageFor({ schema, fieldName: field, errors, rule, values });
         }
       },
       );

@@ -1,5 +1,8 @@
 ### v NEXT
 
+### v 0.0.8
+Add dynamic error messages by [Justin Schulz](https://github.com/PepperTeasdale) in [#11](https://github.com/policygenius/redux-form-validations/pull/11)
+
 ### v 0.0.7
 - Fix exporting `.isDateBefore()` validator by [Trevor Nelson](https://github.com/trevornelson) in [#8](https://github.com/policygenius/redux-form-validations/pull/8)
 
