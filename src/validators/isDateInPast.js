@@ -1,11 +1,7 @@
-import { isNil } from 'lodash';
-import moment from 'moment';
+import isNil from 'lodash/isNil';
+import isPast from 'date-fns/is_past';
 
 export default {
   errorMessage: 'Must be a date in the past',
-  validator: (allValues, value) => {
-    const today = moment().format('YYYY-MM-DD');
-
-    return isNil(value) || moment(value).isBefore(today);
-  },
+  validator: (allValues, value) => (isNil(value) || isPast(value)),
 };

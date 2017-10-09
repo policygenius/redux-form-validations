@@ -1,4 +1,5 @@
-import { isFinite, isNil } from 'lodash';
+import isFinite from 'lodash/isFinite';
+import isNil from 'lodash/isNil';
 import invariant from 'invariant';
 
 export default (min, max) => {

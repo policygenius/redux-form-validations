@@ -1,5 +1,5 @@
 import invariant from 'invariant';
-import { isNil } from 'lodash';
+import isNil from 'lodash/isNil';
 import { isEmpty } from '../helpers';
 
 /* eslint-disable max-len */
