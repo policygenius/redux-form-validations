@@ -1,4 +1,4 @@
-import { some } from 'lodash';
+import some from 'lodash/some';
 import buildValidations from './buildValidations';
 import isPresent from './validators/isPresent';
 import isEmail from './validators/isEmail';

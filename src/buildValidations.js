@@ -1,4 +1,8 @@
-import { isArray, pickBy, get, startCase, forEach } from 'lodash';
+import isArray from 'lodash/isArray';
+import pickBy from 'lodash/pickBy';
+import get from 'lodash/get';
+import startCase from 'lodash/startCase';
+import forEach from 'lodash/forEach';
 import isPresent from './validators/isPresent';
 
 const labelFor = (schema, fieldName) => schema[fieldName].label || startCase(fieldName);

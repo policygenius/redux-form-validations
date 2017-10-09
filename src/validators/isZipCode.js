@@ -1,4 +1,5 @@
-import { isString, isNil } from 'lodash';
+import isString from 'lodash/isString';
+import isNil from 'lodash/isNil';
 import invariant from 'invariant';
 
 export default {
