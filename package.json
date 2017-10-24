@@ -5,6 +5,7 @@
   "author": "PolicyGenius",
   "license": "MIT",
   "main": "build/index.js",
+  "typings": "build/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/policygenius/redux-form-validations.git"
@@ -66,7 +67,7 @@
   },
   "scripts": {
     "clean": "rm -rf build/*",
-    "build": "babel src --ignore spec.js --out-dir build",
+    "build": "babel src --ignore spec.js --out-dir build && cp src/index.d.ts build",
     "lint": "eslint ./src --ext .js",
     "lint:fix": "eslint --fix ./src --ext .js",
     "prepublish": "yarn run clean && yarn run build",
