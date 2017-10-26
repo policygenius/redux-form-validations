@@ -1,5 +1,8 @@
 ### v NEXT
 
+### v 0.0.11
+Simplify email validation regex [James Lowenthal](https://github.com/JamesAnthonyLow) in [#16](https://github.com/policygenius/redux-form-validations/pull/16)
+
 ### v 0.0.10
 Add TypeScript declarations by [Joshua Clark](https://github.com/j-clark) in [#15](https://github.com/policygenius/redux-form-validations/pull/15)
 
