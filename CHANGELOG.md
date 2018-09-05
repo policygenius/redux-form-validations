@@ -1,5 +1,8 @@
 ### v NEXT
 
+### v 0.1.0
+Add ability to construct field validate property as a function that receives props [John Colella](https://github.com/jmcolella) in [#17](https://github.com/policygenius/redux-form-validations/pull/17)
+
 ### v 0.0.11
 Simplify email validation regex [James Lowenthal](https://github.com/JamesAnthonyLow) in [#16](https://github.com/policygenius/redux-form-validations/pull/16)
 

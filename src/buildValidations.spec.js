@@ -462,6 +462,57 @@ describe('buildErrors', () => {
     });
   });
 
+  context('schema has validate functions', () => {
+    context('when there are required fields', () => {
+      context('when there are no specified error messages', () => {
+        const mockValidate = jest.fn().mockReturnValue({
+          validator: isPresent.validator,
+        });
+
+        const schema = {
+          someRequired: {
+            validate: isPresent,
+          },
+          anotherRequired: {
+            validate: mockValidate,
+          },
+          blankRequired: {
+            validate: {
+              validator: isPresent.validator,
+            },
+          },
+          nawNotRequired: {},
+        };
+
+        const values = {
+          someRequired: 'and it is there',
+          anotherRequired: null,
+          blankRequired: '',
+          nawNotRequired: null,
+        };
+
+        const props = {
+          some: 'props',
+        };
+
+        it('calls the validate function with props', () => {
+          buildValidations(schema).validate(values, props);
+
+          expect(mockValidate).toHaveBeenCalledWith(props);
+        });
+
+        it('returns an object with default field error messages', () => {
+          expect(buildValidations(schema).validate(values)).toEqual(
+            {
+              anotherRequired: 'Another Required is not valid',
+              blankRequired: 'Blank Required is not valid',
+            },
+          );
+        });
+      });
+    });
+  });
+
   context('when there are warn fields', () => {
     context('when top level', () => {
       const schema = {
