@@ -70,6 +70,22 @@ If the return value is true, then the field is valid, if false, an error is adde
 `errorMessage`: String || Function (allField, value) => String
 The error message that is returned with the `validate` or `warn` function call when the `validator` returns false.
 
+Alternatively, you can assign a function that returns a _validator object_ to either `warn` or `validate` that will receive `props` from your ReduxForm wrapped component. This is helpful if you need to validate based on information outside of the form state.
+
+Example:
+
+```javascript
+const { warn, validate } = buildValidations({
+  firstName: {
+    validate: (props) => ({
+      validator: (fields) => {
+        return props.someBoolean && fields.numbers > 0,
+      }
+    }),
+  },
+});
+```
+
 ## Prior work
 [redux-form-schema](https://github.com/Lighthouse-io/redux-form-schema) is the main
 inspiration for this project. After redux-form moved to V6, this project was deprecated,

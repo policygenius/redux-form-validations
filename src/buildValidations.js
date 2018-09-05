@@ -28,13 +28,19 @@ const isValid = ({ values, field, rule }) => {
   return true;
 };
 
-const buildValidators = (schema, type) => (values) => {
+const buildValidators = (schema, type) => (values, props) => {
   const errors = {};
   const validatedFields = Object.keys(pickBy(schema, obj => get(obj, type)));
 
   forEach(validatedFields, (field) => {
-    if (!isArray(schema[field][type])) {
-      const rule = schema[field][type];
+    let validation = schema[field][type];
+
+    if (typeof validation === 'function') {
+      validation = validation(props);
+    }
+
+    if (!isArray(validation)) {
+      const rule = validation;
       const requiredAndNotPresent = isRequiredAndNotPresent({ values, field, rule });
       const valid = isValid({ values, field, rule });
 
@@ -44,7 +50,7 @@ const buildValidators = (schema, type) => (values) => {
         errors[field] = errorMessageFor({ schema, fieldName: field, errors, rule, values });
       }
     } else {
-      const rules = schema[field][type];
+      const rules = validation;
 
       forEach(rules, (rule) => {
         const requiredAndNotPresent = isRequiredAndNotPresent({ values, field, rule });

@@ -1,5 +1,8 @@
 {
   "extends": "policygenius",
+  "env": {
+    "jest": true
+  },
   "globals": {
     "expect": false
   },
