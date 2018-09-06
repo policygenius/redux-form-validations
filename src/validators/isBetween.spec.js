@@ -1,4 +1,4 @@
-import isBetween from './isBetween';
+import { isBetween } from '../';
 
 describe('isBetween', () => {
   const someFields = {};

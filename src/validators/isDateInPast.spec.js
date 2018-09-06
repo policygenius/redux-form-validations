@@ -1,5 +1,5 @@
 import mockdate from 'mockdate';
-import isDateInPast from './isDateInPast';
+import { isDateInPast } from '../';
 
 describe('isDateInPast', () => {
   const someFields = {};

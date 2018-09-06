@@ -1,4 +1,4 @@
-import isEmail from './isEmail';
+import { isEmail } from '../';
 
 describe('isEmail', () => {
   const someFields = {};

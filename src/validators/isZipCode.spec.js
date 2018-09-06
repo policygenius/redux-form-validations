@@ -1,4 +1,4 @@
-import isZipCode from './isZipCode';
+import { isZipCode } from '../';
 
 describe('isZipCode', () => {
   const someFields = {};
