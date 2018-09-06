@@ -1,4 +1,4 @@
-import isDateAfter from './isDateAfter';
+import { isDateAfter } from '../';
 
 describe('isDateAfter', () => {
   const someFields = {};

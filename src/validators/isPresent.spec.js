@@ -1,4 +1,4 @@
-import isPresent from './isPresent';
+import { isPresent } from '../';
 
 describe('isPresent', () => {
   const someFields = {};

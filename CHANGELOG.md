@@ -1,5 +1,8 @@
 ### v NEXT
 
+### v 0.1.2
+- Fix exporting `.isDateOnOrAfter()` validator by [John Colella](https://github.com/jmcolella) in [#20](https://github.com/policygenius/redux-form-validations/pull/20)
+
 ### v 0.1.1
 Add isDateOnOrAfter validator by [John Colella](https://github.com/jmcolella) in [#18](https://github.com/policygenius/redux-form-validations/pull/6)
 

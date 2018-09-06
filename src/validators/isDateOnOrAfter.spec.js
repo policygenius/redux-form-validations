@@ -1,4 +1,4 @@
-import isDateOnOrAfter from './isDateOnOrAfter';
+import { isDateOnOrAfter } from '../';
 
 describe('isDateOnOrAfter', () => {
   const someFields = {};
