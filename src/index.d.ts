@@ -31,3 +31,4 @@ export function isDateInPast(): Validator;
 export function isEmail(): Validator;
 export function isPresent(): Validator;
 export function isZipCode(): Validator;
+export function isPhoneNumber(): Validator;
