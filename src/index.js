@@ -6,3 +6,4 @@ export isEmail from './validators/isEmail';
 export isPresent from './validators/isPresent';
 export isZipCode from './validators/isZipCode';
 export isDateOnOrAfter from './validators/isDateOnOrAfter';
+export isPhoneNumber from './validators/isPhoneNumber';

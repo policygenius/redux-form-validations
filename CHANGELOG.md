@@ -1,5 +1,8 @@
 ### v NEXT
 
+### v 0.1.3
+- Add `isPhoneNumber` validator by [Sunny Mistry](https://github.com/sunnymis) in [#22](https://github.com/policygenius/redux-form-validations/pull/22)
+
 ### v 0.1.2
 - Fix exporting `.isDateOnOrAfter()` validator by [John Colella](https://github.com/jmcolella) in [#20](https://github.com/policygenius/redux-form-validations/pull/20)
 
