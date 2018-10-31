@@ -1,5 +1,8 @@
 ### v NEXT
 
+### v 0.1.4
+- Invalidate emails with spaces in them by [Trevor Nelson](https://github.com/trevornelson) in [#23](https://github.com/policygenius/redux-form-validations/pull/23)
+
 ### v 0.1.3
 - Add `isPhoneNumber` validator by [Sunny Mistry](https://github.com/sunnymis) in [#22](https://github.com/policygenius/redux-form-validations/pull/22)
 
