@@ -4,7 +4,7 @@ import { isEmpty } from '../helpers';
 
 /* eslint-disable max-len */
 /* eslint-disable no-useless-escape */
-const EMAIL_REGEX = /.+@.+\..+/;
+const EMAIL_REGEX = /^\S+@\S+\.\S+/;
 /* eslint-disable */
 
 export default {

@@ -8,9 +8,21 @@ describe('isEmail', () => {
       expect(isEmail.validator(someFields, 'asdf@fakemail.com')).toBe(true);
     });
 
-    context('when the value is not a valid email address', () => {
+    context('when the value has no domain', () => {
       it('returns false', () => {
         expect(isEmail.validator(someFields, 'asdffakemail.com')).toBe(false);
+      });
+    });
+
+    context('when the value has no TLD', () => {
+      it('returns false', () => {
+        expect(isEmail.validator(someFields, 'asdffakemail@email')).toBe(false);
+      });
+    });
+
+    context('when the value has a space in it', () => {
+      it('returns false', () => {
+        expect(isEmail.validator(someFields, 'asdf fakemail@email.com')).toBe(false);
       });
     });
 
