@@ -20,6 +20,18 @@ describe('isEmail', () => {
       });
     });
 
+    context('when the value has a bad TLD', () => {
+      it('returns false', () => {
+        expect(isEmail.validator(someFields, 'asdffakemail@email.c')).toBe(false);
+      });
+    });
+
+    context('when the value has a space in the TLD', () => {
+      it('returns false', () => {
+        expect(isEmail.validator(someFields, 'asdffakemail@email. com')).toBe(false);
+      });
+    });
+
     context('when the value has a space in it', () => {
       it('returns false', () => {
         expect(isEmail.validator(someFields, 'asdf fakemail@email.com')).toBe(false);
