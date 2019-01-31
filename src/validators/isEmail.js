@@ -4,7 +4,9 @@ import { isEmpty } from '../helpers';
 
 /* eslint-disable max-len */
 /* eslint-disable no-useless-escape */
-const EMAIL_REGEX = /^\S+@\S+\.\S+/;
+
+// pulled from https://emailregex.com/, adhering to the RFC 5322 Official Standard)
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 /* eslint-disable */
 
 export default {
@@ -14,6 +16,6 @@ export default {
       typeof value === 'string' || isNil(value),
       `Argument must be a string or nil value, received ${value}, a ${typeof value}`
     )
-    return isEmpty(value) ? true : EMAIL_REGEX.test(value.trim());
+    return isEmpty(value) || EMAIL_REGEX.test(value.trim());
   }
 };
