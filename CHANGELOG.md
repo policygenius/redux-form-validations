@@ -1,5 +1,8 @@
 ### v NEXT
 
+### v 0.1.5
+- Update email validation to use regex from the RFC 5322 standard [Dan Novograd](https://github.com/danielnovograd) in [#24](https://github.com/policygenius/redux-form-validations/pull/24)
+
 ### v 0.1.4
 - Invalidate emails with spaces in them by [Trevor Nelson](https://github.com/trevornelson) in [#23](https://github.com/policygenius/redux-form-validations/pull/23)
 
