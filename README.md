@@ -1,14 +1,32 @@
-# redux-form-validations
-A collection of utilities for validations in redux-form V6
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-Note: this project is under initial development, API may change (we will follow sem-ver).
+- [Purpose](#purpose)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+  - [Example](#example)
+  - [Custom validators](#custom-validators)
+- [Contributing / Todos](#contributing--todos)
 
-## Example
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+# Purpose
+A collection of utilities for validations in redux-form V6.
+
+[redux-form-schema](https://github.com/Lighthouse-io/redux-form-schema) is the main
+inspiration for this project. After redux-form moved to V6, this project was deprecated,
+since a large part of its functionality was obselete. However, we still liked being able
+to define our validations with a simple and declarative API. This small library aims to
+supply that abstraction with some built-in validators and configuration options.
+
+# Getting Started
 ```
 $ npm install --save redux-form-validations
 ```
 
+# Usage
+## Example
 ```javascript
 import { React } from 'react';
 import { reduxForm } from 'redux-form';
@@ -62,7 +80,6 @@ export default reduxForm({ warn, validate })(MyForm);
 ```
 
 ## Custom validators
-
 Every field defined in your schema object has top-level keys `warn` and `validate` which are used to build warn and validate functions for redux-form connected components. These keys take a _validator object_, which has the shape:
 
 `validator`: Function (allFields, value) => Boolean
@@ -86,14 +103,7 @@ const { warn, validate } = buildValidations({
 });
 ```
 
-## Prior work
-[redux-form-schema](https://github.com/Lighthouse-io/redux-form-schema) is the main
-inspiration for this project. After redux-form moved to V6, this project was deprecated,
-since a large part of its functionality was obselete. However, we still liked being able
-to define our validations with a simple and declarative API. This small library aims to
-supply that abstraction with some built-in validators and configuration options.
-
-## Contributing/ Todos
+# Contributing / Todos
 This is a green project, and we are open to feature suggestions and other improvements.
 Additionally, you can contribute by helping with these outstanding todos:
 
