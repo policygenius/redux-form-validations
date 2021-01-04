@@ -8,7 +8,7 @@
 TODO:
 
 - [ ] Make sure all of the significant new logic is covered by tests
-- [ ] Rebase your changes on master so that they can be merged easily
+- [ ] Rebase your changes on main so that they can be merged easily
 - [ ] Make sure all tests pass
 - [ ] Update CHANGELOG.md with your change
 - [ ] If this was a change that affects the public API, update the README
