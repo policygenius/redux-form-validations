@@ -33,7 +33,7 @@
     "eslint-plugin-react": "^6.10.3",
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
-    "karma": "^1.7.0",
+    "karma": "^6.3.16",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.3",
     "mockdate": "^2.0.1",
